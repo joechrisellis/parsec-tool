@@ -4,6 +4,7 @@
 //! Subcommand implementations. Interacts with parsec-client-rust.
 
 pub mod common;
+pub mod list_authenticators;
 pub mod list_opcodes;
 pub mod list_providers;
 pub mod ping;
@@ -12,8 +13,9 @@ pub mod psa_generate_random;
 use crate::cli::ParsecToolApp;
 use crate::error::ParsecToolError;
 use crate::subcommands::{
-    list_opcodes::ListOpcodesSubcommand, list_providers::ListProvidersSubcommand,
-    ping::PingSubcommand, psa_generate_random::PsaGenerateRandomSubcommand,
+    list_authenticators::ListAuthenticatorsSubcommand, list_opcodes::ListOpcodesSubcommand,
+    list_providers::ListProvidersSubcommand, ping::PingSubcommand,
+    psa_generate_random::PsaGenerateRandomSubcommand,
 };
 use anyhow::Result;
 use parsec_interface::operations::NativeOperation;
@@ -47,6 +49,9 @@ pub enum Subcommand {
     /// Lists the supported opcodes for a given provider.
     ListOpcodes(ListOpcodesSubcommand),
 
+    /// Lists the authenticators supported by the Parsec service.
+    ListAuthenticators(ListAuthenticatorsSubcommand),
+
     /// Generates a sequence of random bytes.
     PsaGenerateRandom(PsaGenerateRandomSubcommand),
 }
@@ -59,6 +64,7 @@ impl Subcommand {
             Subcommand::ListProviders(cmd) => cmd.run(matches),
             Subcommand::ListOpcodes(cmd) => cmd.run(matches),
             Subcommand::PsaGenerateRandom(cmd) => cmd.run(matches),
+            Subcommand::ListAuthenticators(cmd) => cmd.run(matches),
         }
     }
 }
